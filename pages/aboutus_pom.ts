@@ -137,8 +137,6 @@ export class AboutUsPage {
             height: '0px',
             naturalWidth: 0,
             naturalHeight: 0,
-            x: -36.82587432861328,
-            y: -776.3125,
             objectFit: 'fill',
             objectPosition: '50% 50%',
             border: '0px none rgb(33, 37, 41)',
