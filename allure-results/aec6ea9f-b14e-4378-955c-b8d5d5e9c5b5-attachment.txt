@@ -1,2 +1,0 @@
-✅ Container CSS validation passed: 31 properties
-✅ Image CSS validation passed: 17 properties
