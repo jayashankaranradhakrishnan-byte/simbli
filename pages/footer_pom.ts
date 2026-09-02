@@ -208,6 +208,7 @@ export class FooterPage {
 
     const expectedFooterLogoCss = {
       src: "https://www.simbli.ai/assets/footer-logo-DXw0c_xK.svg",
+    //src: "https://dev.simbli.ai/assets/footer-logo-DXw0c_xK.svg",
       alt: "",
       objectFit: "fill",
       objectPosition: "50% 50%",
@@ -499,6 +500,11 @@ export class FooterPage {
       "href",
       "https://simbli.ai",
     );
+
+    // await expect(this.exploreAgentsButton).toHaveAttribute(
+    //   "href",
+    //   "https://dev.simbli.ai",
+    // );
 
     await expect(this.exploreAgentsButton).toHaveAttribute(
       "style",

@@ -167,6 +167,7 @@ export class AboutUsPage {
 
     const expectedAboutImageCss = {
       src: "https://www.simbli.ai/assets/about-BGyVSSTq.svg",
+    //   src: "https://dev.simbli.ai/assets/about-BGyVSSTq.svg",
       alt: "",
     //   width: "476px",
     //   height: "0px",

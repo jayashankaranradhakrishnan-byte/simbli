@@ -136,6 +136,8 @@ export default defineConfig({
   use: {
     baseURL: 'https://www.simbli.ai',
 
+    // baseURL: 'https://dev.simbli.ai/',
+
     // Useful for debugging failures
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',

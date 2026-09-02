@@ -129,8 +129,8 @@ export class landingPage {
     );
 
     const expectedLandingPageHeadercontainerCss = {
-    //   width: "1208px",
-    //   height: "68px",
+      //   width: "1208px",
+      //   height: "68px",
 
       position: "relative",
       top: "0px",
@@ -175,17 +175,18 @@ export class landingPage {
     };
 
     const expectedLogoCss = {
-      src: "https://www.simbli.ai/assets/logo-simbli-C3O7l_VO.svg",
+        src: "https://www.simbli.ai/assets/logo-simbli-C3O7l_VO.svg",
+    //   src: "https://dev.simbli.ai/assets/logo-simbli-C3O7l_VO.svg",
       alt: "logo",
 
-    //   width: "135px",
-    //   height: "33.5px",
+      //   width: "135px",
+      //   height: "33.5px",
 
-    //   naturalWidth: 4383,
-    //   naturalHeight: 1088,
+      //   naturalWidth: 4383,
+      //   naturalHeight: 1088,
 
-    //   x: 65,
-    //   y: 37.25,
+      //   x: 65,
+      //   y: 37.25,
 
       objectFit: "fill",
       objectPosition: "50% 50%",
