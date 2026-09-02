@@ -1,1149 +1,1119 @@
-import { Page, expect, Locator, APIRequestContext, APIResponse } from "@playwright/test";
-
+import {
+  Page,
+  expect,
+  Locator,
+  APIRequestContext,
+  APIResponse,
+} from "@playwright/test";
 
 export class uivalidator {
-    readonly page: Page;
-    readonly request: APIRequestContext;
+  readonly page: Page;
+  readonly request: APIRequestContext;
 
-    constructor(page: Page, request: APIRequestContext) {
-        this.page = page;
-        this.request = request;
+  constructor(page: Page, request: APIRequestContext) {
+    this.page = page;
+    this.request = request;
+  }
+
+  async getBox(locator: Locator) {
+    const box = await locator.boundingBox();
+
+    if (!box) {
+      throw new Error("Element is not visible or has no bounding box");
     }
 
-    async getBox(locator: Locator) {
-        const box = await locator.boundingBox();
+    return box;
+  }
 
-        if (!box) {
-            throw new Error('Element is not visible or has no bounding box');
-        }
+  async getCommonCss(locator: Locator) {
+    return await locator.evaluate((el) => {
+      const css = getComputedStyle(el);
+      const rect = el.getBoundingClientRect();
 
-        return box;
-    }
+      return {
+        // Layout
+        display: css.display,
+        position: css.position,
+        visibility: css.visibility,
+        opacity: css.opacity,
+        zIndex: css.zIndex,
 
+        // Dimensions
+        width: css.width,
+        height: css.height,
+        minWidth: css.minWidth,
+        maxWidth: css.maxWidth,
+        minHeight: css.minHeight,
+        maxHeight: css.maxHeight,
 
-    async getCommonCss(locator: Locator) {
-        return await locator.evaluate((el) => {
-            const css = getComputedStyle(el);
-            const rect = el.getBoundingClientRect();
+        // Position
+        x: rect.x,
+        y: rect.y,
+        top: css.top,
+        right: css.right,
+        bottom: css.bottom,
+        left: css.left,
 
-            return {
-                // Layout
-                display: css.display,
-                position: css.position,
-                visibility: css.visibility,
-                opacity: css.opacity,
-                zIndex: css.zIndex,
+        // Spacing
+        margin: css.margin,
+        marginTop: css.marginTop,
+        marginRight: css.marginRight,
+        marginBottom: css.marginBottom,
+        marginLeft: css.marginLeft,
 
-                // Dimensions
-                width: css.width,
-                height: css.height,
-                minWidth: css.minWidth,
-                maxWidth: css.maxWidth,
-                minHeight: css.minHeight,
-                maxHeight: css.maxHeight,
+        padding: css.padding,
+        paddingTop: css.paddingTop,
+        paddingRight: css.paddingRight,
+        paddingBottom: css.paddingBottom,
+        paddingLeft: css.paddingLeft,
 
-                // Position
-                x: rect.x,
-                y: rect.y,
-                top: css.top,
-                right: css.right,
-                bottom: css.bottom,
-                left: css.left,
+        // Background
+        backgroundColor: css.backgroundColor,
+        backgroundImage: css.backgroundImage,
+        backgroundSize: css.backgroundSize,
+        backgroundPosition: css.backgroundPosition,
 
-                // Spacing
-                margin: css.margin,
-                marginTop: css.marginTop,
-                marginRight: css.marginRight,
-                marginBottom: css.marginBottom,
-                marginLeft: css.marginLeft,
+        // Border
+        border: css.border,
+        borderWidth: css.borderWidth,
+        borderStyle: css.borderStyle,
+        borderColor: css.borderColor,
+        borderRadius: css.borderRadius,
 
-                padding: css.padding,
-                paddingTop: css.paddingTop,
-                paddingRight: css.paddingRight,
-                paddingBottom: css.paddingBottom,
-                paddingLeft: css.paddingLeft,
+        // Shadow
+        boxShadow: css.boxShadow,
 
-                // Background
-                backgroundColor: css.backgroundColor,
-                backgroundImage: css.backgroundImage,
-                backgroundSize: css.backgroundSize,
-                backgroundPosition: css.backgroundPosition,
+        // Overflow
+        overflow: css.overflow,
+        overflowX: css.overflowX,
+        overflowY: css.overflowY,
 
-                // Border
-                border: css.border,
-                borderWidth: css.borderWidth,
-                borderStyle: css.borderStyle,
-                borderColor: css.borderColor,
-                borderRadius: css.borderRadius,
+        // Interaction
+        cursor: css.cursor,
+        pointerEvents: css.pointerEvents,
 
-                // Shadow
-                boxShadow: css.boxShadow,
+        // Transition
+        transition: css.transition,
+        transform: css.transform,
+      };
+    });
+  }
 
-                // Overflow
-                overflow: css.overflow,
-                overflowX: css.overflowX,
-                overflowY: css.overflowY,
+  async getTextCss(locator: Locator) {
+    return await locator.evaluate((el) => {
+      const css = getComputedStyle(el);
+      const rect = el.getBoundingClientRect();
 
-                // Interaction
-                cursor: css.cursor,
-                pointerEvents: css.pointerEvents,
+      return {
+        // Content
+        text: el.textContent?.trim(),
 
-                // Transition
-                transition: css.transition,
-                transform: css.transform,
-            };
-        });
-    }
+        // Font
+        fontFamily: css.fontFamily,
+        fontSize: css.fontSize,
+        fontWeight: css.fontWeight,
+        fontStyle: css.fontStyle,
+        lineHeight: css.lineHeight,
 
+        // Text
+        color: css.color,
+        textAlign: css.textAlign,
+        textTransform: css.textTransform,
+        textDecoration: css.textDecoration,
+        textDecorationLine: css.textDecorationLine,
+        textDecorationStyle: css.textDecorationStyle,
+        textDecorationColor: css.textDecorationColor,
+        letterSpacing: css.letterSpacing,
+        wordSpacing: css.wordSpacing,
+        whiteSpace: css.whiteSpace,
+        textOverflow: css.textOverflow,
 
-    async getTextCss(locator: Locator) {
-        return await locator.evaluate((el) => {
-            const css = getComputedStyle(el);
-            const rect = el.getBoundingClientRect();
+        // Dimensions
+        width: css.width,
+        height: css.height,
 
-            return {
-                // Content
-                text: el.textContent?.trim(),
+        // Position
+        x: rect.x,
+        y: rect.y,
 
-                // Font
-                fontFamily: css.fontFamily,
-                fontSize: css.fontSize,
-                fontWeight: css.fontWeight,
-                fontStyle: css.fontStyle,
-                lineHeight: css.lineHeight,
+        // Spacing
+        margin: css.margin,
+        padding: css.padding,
 
-                // Text
-                color: css.color,
-                textAlign: css.textAlign,
-                textTransform: css.textTransform,
-                textDecoration: css.textDecoration,
-                textDecorationLine: css.textDecorationLine,
-                textDecorationStyle: css.textDecorationStyle,
-                textDecorationColor: css.textDecorationColor,
-                letterSpacing: css.letterSpacing,
-                wordSpacing: css.wordSpacing,
-                whiteSpace: css.whiteSpace,
-                textOverflow: css.textOverflow,
+        // Visibility
+        display: css.display,
+        visibility: css.visibility,
+        opacity: css.opacity,
+      };
+    });
+  }
 
-                // Dimensions
-                width: css.width,
-                height: css.height,
+  async validateButtonCss(
+    locator: Locator,
+    expected: Record<string, string | number | boolean | null>,
+  ) {
+    const actual = await this.getButtonCss(locator);
 
-                // Position
-                x: rect.x,
-                y: rect.y,
+    const failures: string[] = [];
 
-                // Spacing
-                margin: css.margin,
-                padding: css.padding,
+    for (const [property, expectedValue] of Object.entries(expected)) {
+      const actualValue = actual[property as keyof typeof actual];
 
-                // Visibility
-                display: css.display,
-                visibility: css.visibility,
-                opacity: css.opacity,
-            };
-        });
-    }
-
-
-    async validateButtonCss(
-        locator: Locator,
-        expected: Record<string, string | number | boolean | null>
-    ) {
-        const actual = await this.getButtonCss(locator);
-
-        const failures: string[] = [];
-
-        for (const [property, expectedValue] of Object.entries(expected)) {
-
-            const actualValue =
-                actual[property as keyof typeof actual];
-
-            if (actualValue !== expectedValue) {
-
-                failures.push(
-                    `${property} → Expected: "${expectedValue}" | Actual: "${actualValue}"`
-                );
-            }
-        }
-
-        if (failures.length > 0) {
-
-            console.error(
-                '\n❌ Button CSS Validation Failed:\n' +
-                failures.join('\n')
-            );
-
-            throw new Error(
-                `Button CSS validation failed:\n` +
-                failures.join('\n')
-            );
-        }
-
-        console.log(
-            `✅ Button CSS validation passed: ${Object.keys(expected).length
-            } properties`
+      if (actualValue !== expectedValue) {
+        failures.push(
+          `${property} → Expected: "${expectedValue}" | Actual: "${actualValue}"`,
         );
+      }
     }
 
-    async getButtonCss(locator: Locator) {
-        return await locator.evaluate((el) => {
-            const css = getComputedStyle(el);
-            const rect = el.getBoundingClientRect();
+    if (failures.length > 0) {
+      console.error(
+        "\n❌ Button CSS Validation Failed:\n" + failures.join("\n"),
+      );
 
-            return {
-                // Content
-                text: el.textContent?.trim(),
-
-                // Dimensions
-                width: css.width,
-                height: css.height,
-
-                // Position
-                x: rect.x,
-                y: rect.y,
-
-                // Layout
-                display: css.display,
-                position: css.position,
-
-                // Font
-                fontFamily: css.fontFamily,
-                fontSize: css.fontSize,
-                fontWeight: css.fontWeight,
-                lineHeight: css.lineHeight,
-
-                // Text
-                color: css.color,
-                textAlign: css.textAlign,
-                textTransform: css.textTransform,
-                letterSpacing: css.letterSpacing,
-
-                // Background
-                backgroundColor: css.backgroundColor,
-                backgroundImage: css.backgroundImage,
-
-                // Border
-                border: css.border,
-                borderRadius: css.borderRadius,
-
-                // Spacing
-                padding: css.padding,
-                margin: css.margin,
-
-                // Effects
-                boxShadow: css.boxShadow,
-                opacity: css.opacity,
-
-                // Interaction
-                cursor: css.cursor,
-                pointerEvents: css.pointerEvents,
-
-                // State
-                disabled: (el as HTMLButtonElement).disabled,
-
-                // Accessibility
-                ariaLabel: el.getAttribute('aria-label'),
-                role: el.getAttribute('role'),
-
-                // Transition
-                transition: css.transition,
-            };
-        });
+      throw new Error(`Button CSS validation failed:\n` + failures.join("\n"));
     }
 
+    console.log(
+      `✅ Button CSS validation passed: ${
+        Object.keys(expected).length
+      } properties`,
+    );
+  }
 
-    async validateImageCss(
-        locator: Locator,
-        expected: Record<string, string | number>
-    ) {
-        const actual = await this.getImageCss(locator);
+  async getButtonCss(locator: Locator) {
+    return await locator.evaluate((el) => {
+      const css = getComputedStyle(el);
+      const rect = el.getBoundingClientRect();
 
-        const failures: string[] = [];
+      return {
+        // Content
+        text: el.textContent?.trim(),
 
-        for (const [property, expectedValue] of Object.entries(expected)) {
+        // Dimensions
+        width: css.width,
+        height: css.height,
 
-            const actualValue =
-                actual[property as keyof typeof actual];
+        // Position
+        x: rect.x,
+        y: rect.y,
 
-            if (actualValue !== expectedValue) {
+        // Layout
+        display: css.display,
+        position: css.position,
 
-                failures.push(
-                    `${property} → Expected: "${expectedValue}" | Actual: "${actualValue}"`
-                );
-            }
-        }
+        // Font
+        fontFamily: css.fontFamily,
+        fontSize: css.fontSize,
+        fontWeight: css.fontWeight,
+        lineHeight: css.lineHeight,
 
-        if (failures.length > 0) {
+        // Text
+        color: css.color,
+        textAlign: css.textAlign,
+        textTransform: css.textTransform,
+        letterSpacing: css.letterSpacing,
 
-            console.error(
-                '\n❌ Image CSS Validation Failed:\n' +
-                failures.join('\n')
-            );
+        // Background
+        backgroundColor: css.backgroundColor,
+        backgroundImage: css.backgroundImage,
 
-            throw new Error(
-                `Image CSS validation failed:\n` +
-                failures.join('\n')
-            );
-        }
+        // Border
+        border: css.border,
+        borderRadius: css.borderRadius,
 
-        console.log(
-            `✅ Image CSS validation passed: ${Object.keys(expected).length
-            } properties`
+        // Spacing
+        padding: css.padding,
+        margin: css.margin,
+
+        // Effects
+        boxShadow: css.boxShadow,
+        opacity: css.opacity,
+
+        // Interaction
+        cursor: css.cursor,
+        pointerEvents: css.pointerEvents,
+
+        // State
+        disabled: (el as HTMLButtonElement).disabled,
+
+        // Accessibility
+        ariaLabel: el.getAttribute("aria-label"),
+        role: el.getAttribute("role"),
+
+        // Transition
+        transition: css.transition,
+      };
+    });
+  }
+
+  async validateImageCss(
+    locator: Locator,
+    expected: Record<string, string | number>,
+  ) {
+    const actual = await this.getImageCss(locator);
+
+    const failures: string[] = [];
+
+    for (const [property, expectedValue] of Object.entries(expected)) {
+      const actualValue = actual[property as keyof typeof actual];
+
+      if (actualValue !== expectedValue) {
+        failures.push(
+          `${property} → Expected: "${expectedValue}" | Actual: "${actualValue}"`,
         );
+      }
     }
 
-    async getImageCss(locator: Locator) {
-        return await locator.evaluate((el) => {
-            const css = getComputedStyle(el);
-            const rect = el.getBoundingClientRect();
+    if (failures.length > 0) {
+      console.error(
+        "\n❌ Image CSS Validation Failed:\n" + failures.join("\n"),
+      );
 
-            const img = el as HTMLImageElement;
+      throw new Error(`Image CSS validation failed:\n` + failures.join("\n"));
+    }
 
-            return {
-                src: img.currentSrc || img.src,
-                alt: img.alt,
+    console.log(
+      `✅ Image CSS validation passed: ${
+        Object.keys(expected).length
+      } properties`,
+    );
+  }
 
-                // Display dimensions
-                width: css.width,
-                height: css.height,
+  async getImageCss(locator: Locator) {
+    return await locator.evaluate((el) => {
+      const css = getComputedStyle(el);
+      const rect = el.getBoundingClientRect();
 
-                // Actual dimensions
-                naturalWidth: img.naturalWidth,
-                naturalHeight: img.naturalHeight,
+      const img = el as HTMLImageElement;
 
-                // Position
-                x: rect.x,
-                y: rect.y,
+      return {
+        src: img.currentSrc || img.src,
+        alt: img.alt,
 
-                // Image behavior
-                objectFit: css.objectFit,
-                objectPosition: css.objectPosition,
+        // Display dimensions
+        width: css.width,
+        height: css.height,
 
-                // Border
-                border: css.border,
-                borderRadius: css.borderRadius,
+        // Actual dimensions
+        naturalWidth: img.naturalWidth,
+        naturalHeight: img.naturalHeight,
 
-                // Effects
-                opacity: css.opacity,
-                boxShadow: css.boxShadow,
+        // Position
+        x: rect.x,
+        y: rect.y,
 
-                // Layout
-                display: css.display,
-                position: css.position,
+        // Image behavior
+        objectFit: css.objectFit,
+        objectPosition: css.objectPosition,
 
-                // Background
-                backgroundColor: css.backgroundColor,
-            };
+        // Border
+        border: css.border,
+        borderRadius: css.borderRadius,
+
+        // Effects
+        opacity: css.opacity,
+        boxShadow: css.boxShadow,
+
+        // Layout
+        display: css.display,
+        position: css.position,
+
+        // Background
+        backgroundColor: css.backgroundColor,
+      };
+    });
+  }
+
+  private compareFirstThreeDigits(
+    expected: string | number,
+    actual: unknown,
+  ): boolean {
+    const expectedNumber = parseFloat(String(expected));
+    const actualNumber = parseFloat(String(actual));
+
+    if (Number.isNaN(expectedNumber) || Number.isNaN(actualNumber)) {
+      return String(expected) === String(actual);
+    }
+
+    // Compare only the integer part.
+    // Example: 269.562px === 269.5px
+    return Math.floor(expectedNumber) === Math.floor(actualNumber);
+  }
+
+  async validateContainerCss(
+    locator: Locator,
+    expected: Record<string, string | number | string[]>,
+  ) {
+    const actual = await this.getContainerCss(locator);
+    const failures: string[] = [];
+
+    for (const [property, expectedValue] of Object.entries(expected)) {
+      const actualValue = actual[property as keyof typeof actual];
+
+      // Multiple accepted values - OR condition
+      if (Array.isArray(expectedValue)) {
+        const matched = expectedValue.some((value) => {
+          // CSS px values
+          if (
+            typeof value === "string" &&
+            value.endsWith("px") &&
+            String(actualValue).endsWith("px")
+          ) {
+            return this.compareFirstThreeDigits(value, actualValue);
+          }
+
+          // Normal values
+          return String(actualValue) === String(value);
         });
-    }
 
-
-    async validateContainerCss(
-        locator: Locator,
-        expected: Record<string, string | number>
-    ) {
-        const actual = await this.getContainerCss_expect(locator);
-
-        const failures: string[] = [];
-
-        for (const [property, expectedValue] of Object.entries(expected)) {
-
-            const actualValue =
-                actual[property as keyof typeof actual];
-
-            if (actualValue !== expectedValue) {
-
-                failures.push(
-                    `${property} → Expected: "${expectedValue}" | Actual: "${actualValue}"`
-                );
-            }
+        if (!matched) {
+          failures.push(
+            `${property} → Expected one of: "${expectedValue.join(", ")}" | Actual: "${actualValue}"`,
+          );
         }
 
-        if (failures.length > 0) {
+        continue;
+      }
 
-            console.error(
-                '\n❌ Container CSS Validation Failed:\n' +
-                failures.join('\n')
-            );
-
-            throw new Error(
-                `Container CSS validation failed:\n` +
-                failures.join('\n')
-            );
+      // Numeric values / CSS px values
+      if (
+        typeof expectedValue === "number" ||
+        (typeof expectedValue === "string" &&
+          expectedValue.endsWith("px") &&
+          String(actualValue).endsWith("px"))
+      ) {
+        if (!this.compareFirstThreeDigits(expectedValue, actualValue)) {
+          failures.push(
+            `${property} → Expected: "${expectedValue}" | Actual: "${actualValue}"`,
+          );
         }
 
-        console.log(
-            `✅ Container CSS validation passed: ${Object.keys(expected).length
-            } properties`
+        continue;
+      }
+
+      // Normal string comparison
+      if (String(actualValue) !== String(expectedValue)) {
+        failures.push(
+          `${property} → Expected: "${expectedValue}" | Actual: "${actualValue}"`,
         );
+      }
     }
 
-    async getContainerCss(locator: Locator) {
-        return await locator.evaluate((el) => {
-            const css = getComputedStyle(el);
-            const rect = el.getBoundingClientRect();
-
-            return {
-                width: css.width,
-                height: css.height,
-
-                x: rect.x,
-                y: rect.y,
-
-                position: css.position,
-                top: css.top,
-                right: css.right,
-                bottom: css.bottom,
-                left: css.left,
-
-                display: css.display,
-
-                flexDirection: css.flexDirection,
-                flexWrap: css.flexWrap,
-                justifyContent: css.justifyContent,
-                alignItems: css.alignItems,
-                alignContent: css.alignContent,
-
-                gap: css.gap,
-                rowGap: css.rowGap,
-                columnGap: css.columnGap,
-
-                gridTemplateColumns: css.gridTemplateColumns,
-                gridTemplateRows: css.gridTemplateRows,
-
-                margin: css.margin,
-                padding: css.padding,
-
-                backgroundColor: css.backgroundColor,
-                backgroundImage: css.backgroundImage,
-
-                border: css.border,
-                borderRadius: css.borderRadius,
-
-                boxShadow: css.boxShadow,
-
-                overflow: css.overflow,
-                overflowX: css.overflowX,
-                overflowY: css.overflowY,
-
-                visibility: css.visibility,
-                opacity: css.opacity,
-
-                zIndex: css.zIndex,
-            };
-        });
+    if (failures.length > 0) {
+      throw new Error(
+        `Container CSS validation failed:\n${failures.join("\n")}`,
+      );
     }
 
-    async getContainerCss_expect(locator: Locator) {
+    console.log(
+      `✅ Container CSS validation passed: ${Object.keys(expected).length} properties`,
+    );
+  }
+  async getContainerCss(locator: Locator) {
+    return await locator.evaluate((el) => {
+      const css = getComputedStyle(el);
+      const rect = el.getBoundingClientRect();
 
-        return await locator.evaluate((el) => {
+      return {
+        width: css.width,
+        height: css.height,
 
-            const css = getComputedStyle(el);
-            const rect = el.getBoundingClientRect();
+        x: rect.x,
+        y: rect.y,
 
-            return {
-                width: css.width,
-                height: css.height,
+        position: css.position,
+        top: css.top,
+        right: css.right,
+        bottom: css.bottom,
+        left: css.left,
 
-                x: rect.x,
-                y: rect.y,
+        display: css.display,
 
-                position: css.position,
-                top: css.top,
-                right: css.right,
-                bottom: css.bottom,
-                left: css.left,
+        flexDirection: css.flexDirection,
+        flexWrap: css.flexWrap,
+        justifyContent: css.justifyContent,
+        alignItems: css.alignItems,
+        alignContent: css.alignContent,
 
-                display: css.display,
+        gap: css.gap,
+        rowGap: css.rowGap,
+        columnGap: css.columnGap,
 
-                flexDirection: css.flexDirection,
-                flexWrap: css.flexWrap,
-                justifyContent: css.justifyContent,
-                alignItems: css.alignItems,
-                alignContent: css.alignContent,
+        gridTemplateColumns: css.gridTemplateColumns,
+        gridTemplateRows: css.gridTemplateRows,
 
-                gap: css.gap,
-                rowGap: css.rowGap,
-                columnGap: css.columnGap,
+        margin: css.margin,
+        marginTop: css.marginTop,
+        marginRight: css.marginRight,
+        marginBottom: css.marginBottom,
+        marginLeft: css.marginLeft,
 
-                gridTemplateColumns: css.gridTemplateColumns,
-                gridTemplateRows: css.gridTemplateRows,
+        padding: css.padding,
+        paddingTop: css.paddingTop,
+        paddingRight: css.paddingRight,
+        paddingBottom: css.paddingBottom,
+        paddingLeft: css.paddingLeft,
 
-                margin: css.margin,
-                padding: css.padding,
+        backgroundColor: css.backgroundColor,
+        backgroundImage: css.backgroundImage,
 
-                backgroundColor: css.backgroundColor,
-                backgroundImage: css.backgroundImage,
+        border: css.border,
+        borderRadius: css.borderRadius,
 
-                border: css.border,
-                borderRadius: css.borderRadius,
+        borderTopLeftRadius: css.borderTopLeftRadius,
+        borderTopRightRadius: css.borderTopRightRadius,
+        borderBottomLeftRadius: css.borderBottomLeftRadius,
+        borderBottomRightRadius: css.borderBottomRightRadius,
 
-                boxShadow: css.boxShadow,
+        boxShadow: css.boxShadow,
 
-                overflow: css.overflow,
-                overflowX: css.overflowX,
-                overflowY: css.overflowY,
+        overflow: css.overflow,
+        overflowX: css.overflowX,
+        overflowY: css.overflowY,
 
-                visibility: css.visibility,
-                opacity: css.opacity,
+        visibility: css.visibility,
+        opacity: css.opacity,
+        zIndex: css.zIndex,
+      };
+    });
+  }
 
-                zIndex: css.zIndex,
-            };
-        });
+  // async getContainerCss_expect(locator: Locator) {
+
+  //     return await locator.evaluate((el) => {
+
+  //         const css = getComputedStyle(el);
+  //         const rect = el.getBoundingClientRect();
+
+  //         return {
+  //             width: css.width,
+  //             height: css.height,
+
+  //             x: rect.x,
+  //             y: rect.y,
+
+  //             position: css.position,
+  //             top: css.top,
+  //             right: css.right,
+  //             bottom: css.bottom,
+  //             left: css.left,
+
+  //             display: css.display,
+
+  //             flexDirection: css.flexDirection,
+  //             flexWrap: css.flexWrap,
+  //             justifyContent: css.justifyContent,
+  //             alignItems: css.alignItems,
+  //             alignContent: css.alignContent,
+
+  //             gap: css.gap,
+  //             rowGap: css.rowGap,
+  //             columnGap: css.columnGap,
+
+  //             gridTemplateColumns: css.gridTemplateColumns,
+  //             gridTemplateRows: css.gridTemplateRows,
+
+  //             margin: css.margin,
+  //             padding: css.padding,
+
+  //             backgroundColor: css.backgroundColor,
+  //             backgroundImage: css.backgroundImage,
+
+  //             border: css.border,
+  //             borderRadius: css.borderRadius,
+
+  //             boxShadow: css.boxShadow,
+
+  //             overflow: css.overflow,
+  //             overflowX: css.overflowX,
+  //             overflowY: css.overflowY,
+
+  //             visibility: css.visibility,
+  //             opacity: css.opacity,
+
+  //             zIndex: css.zIndex,
+  //         };
+  //     });
+  // }
+
+  async getCardCss(locator: Locator) {
+    return await locator.evaluate((el) => {
+      const css = getComputedStyle(el);
+      const rect = el.getBoundingClientRect();
+
+      return {
+        width: css.width,
+        height: css.height,
+
+        x: rect.x,
+        y: rect.y,
+
+        display: css.display,
+
+        backgroundColor: css.backgroundColor,
+
+        border: css.border,
+        borderRadius: css.borderRadius,
+
+        boxShadow: css.boxShadow,
+
+        padding: css.padding,
+        margin: css.margin,
+
+        overflow: css.overflow,
+
+        position: css.position,
+
+        // Flex/Grid
+        flexDirection: css.flexDirection,
+        justifyContent: css.justifyContent,
+        alignItems: css.alignItems,
+        gap: css.gap,
+
+        opacity: css.opacity,
+        visibility: css.visibility,
+
+        transition: css.transition,
+      };
+    });
+  }
+
+  async validateDimensions(
+    locator: Locator,
+    expected: {
+      width?: number;
+      height?: number;
+      minWidth?: number;
+      maxWidth?: number;
+      minHeight?: number;
+      maxHeight?: number;
+      tolerance?: number;
+    },
+  ) {
+    const box = await this.getBox(locator);
+
+    const tolerance = expected.tolerance ?? 2;
+
+    if (expected.width !== undefined) {
+      expect(box.width).toBeGreaterThanOrEqual(expected.width - tolerance);
+
+      expect(box.width).toBeLessThanOrEqual(expected.width + tolerance);
     }
 
-    async getCardCss(locator: Locator) {
-        return await locator.evaluate((el) => {
-            const css = getComputedStyle(el);
-            const rect = el.getBoundingClientRect();
+    if (expected.height !== undefined) {
+      expect(box.height).toBeGreaterThanOrEqual(expected.height - tolerance);
 
-            return {
-                width: css.width,
-                height: css.height,
-
-                x: rect.x,
-                y: rect.y,
-
-                display: css.display,
-
-                backgroundColor: css.backgroundColor,
-
-                border: css.border,
-                borderRadius: css.borderRadius,
-
-                boxShadow: css.boxShadow,
-
-                padding: css.padding,
-                margin: css.margin,
-
-                overflow: css.overflow,
-
-                position: css.position,
-
-                // Flex/Grid
-                flexDirection: css.flexDirection,
-                justifyContent: css.justifyContent,
-                alignItems: css.alignItems,
-                gap: css.gap,
-
-                opacity: css.opacity,
-                visibility: css.visibility,
-
-                transition: css.transition,
-            };
-        });
+      expect(box.height).toBeLessThanOrEqual(expected.height + tolerance);
     }
 
-    async validateDimensions(
-        locator: Locator,
-        expected: {
-            width?: number;
-            height?: number;
-            minWidth?: number;
-            maxWidth?: number;
-            minHeight?: number;
-            maxHeight?: number;
-            tolerance?: number;
-        }
-    ) {
-        const box = await this.getBox(locator);
-
-        const tolerance = expected.tolerance ?? 2;
-
-        if (expected.width !== undefined) {
-            expect(box.width).toBeGreaterThanOrEqual(
-                expected.width - tolerance
-            );
-
-            expect(box.width).toBeLessThanOrEqual(
-                expected.width + tolerance
-            );
-        }
-
-        if (expected.height !== undefined) {
-            expect(box.height).toBeGreaterThanOrEqual(
-                expected.height - tolerance
-            );
-
-            expect(box.height).toBeLessThanOrEqual(
-                expected.height + tolerance
-            );
-        }
-
-        if (expected.minWidth !== undefined) {
-            expect(box.width).toBeGreaterThanOrEqual(
-                expected.minWidth
-            );
-        }
-
-        if (expected.maxWidth !== undefined) {
-            expect(box.width).toBeLessThanOrEqual(
-                expected.maxWidth
-            );
-        }
-
-        if (expected.minHeight !== undefined) {
-            expect(box.height).toBeGreaterThanOrEqual(
-                expected.minHeight
-            );
-        }
-
-        if (expected.maxHeight !== undefined) {
-            expect(box.height).toBeLessThanOrEqual(
-                expected.maxHeight
-            );
-        }
-
-        return {
-            width: box.width,
-            height: box.height,
-        };
+    if (expected.minWidth !== undefined) {
+      expect(box.width).toBeGreaterThanOrEqual(expected.minWidth);
     }
 
-    async validatePosition(
-        locator: Locator,
-        expected: {
-            x?: number;
-            y?: number;
-            tolerance?: number;
-        }
-    ) {
-        const box = await this.getBox(locator);
-
-        const tolerance = expected.tolerance ?? 2;
-
-        if (expected.x !== undefined) {
-            expect(box.x).toBeGreaterThanOrEqual(
-                expected.x - tolerance
-            );
-
-            expect(box.x).toBeLessThanOrEqual(
-                expected.x + tolerance
-            );
-        }
-
-        if (expected.y !== undefined) {
-            expect(box.y).toBeGreaterThanOrEqual(
-                expected.y - tolerance
-            );
-
-            expect(box.y).toBeLessThanOrEqual(
-                expected.y + tolerance
-            );
-        }
-
-        return {
-            x: box.x,
-            y: box.y,
-        };
+    if (expected.maxWidth !== undefined) {
+      expect(box.width).toBeLessThanOrEqual(expected.maxWidth);
     }
 
-
-    async validateColors(
-        locator: Locator,
-        expected: {
-            color?: string;
-            backgroundColor?: string;
-            borderColor?: string;
-        }
-    ) {
-        const css = await locator.evaluate((el) => {
-            const style = getComputedStyle(el);
-
-            return {
-                color: style.color,
-                backgroundColor: style.backgroundColor,
-                borderColor: style.borderColor,
-            };
-        });
-
-        if (expected.color !== undefined) {
-            expect(css.color).toBe(expected.color);
-        }
-
-        if (expected.backgroundColor !== undefined) {
-            expect(css.backgroundColor).toBe(
-                expected.backgroundColor
-            );
-        }
-
-        if (expected.borderColor !== undefined) {
-            expect(css.borderColor).toBe(
-                expected.borderColor
-            );
-        }
-
-        return css;
+    if (expected.minHeight !== undefined) {
+      expect(box.height).toBeGreaterThanOrEqual(expected.minHeight);
     }
 
-
-    // ============================================================
-    // 5. SPACING
-    // ============================================================
-
-    async validateSpacing(
-        locator: Locator,
-        expected: {
-            margin?: string;
-            padding?: string;
-            marginTop?: string;
-            marginRight?: string;
-            marginBottom?: string;
-            marginLeft?: string;
-            paddingTop?: string;
-            paddingRight?: string;
-            paddingBottom?: string;
-            paddingLeft?: string;
-        }
-    ) {
-        const css = await locator.evaluate((el) => {
-            const style = getComputedStyle(el);
-
-            return {
-                margin: style.margin,
-                marginTop: style.marginTop,
-                marginRight: style.marginRight,
-                marginBottom: style.marginBottom,
-                marginLeft: style.marginLeft,
-
-                padding: style.padding,
-                paddingTop: style.paddingTop,
-                paddingRight: style.paddingRight,
-                paddingBottom: style.paddingBottom,
-                paddingLeft: style.paddingLeft,
-            };
-        });
-
-        Object.entries(expected).forEach(([key, value]) => {
-            if (value !== undefined) {
-                expect(
-                    css[key as keyof typeof css]
-                ).toBe(value);
-            }
-        });
-
-        return css;
+    if (expected.maxHeight !== undefined) {
+      expect(box.height).toBeLessThanOrEqual(expected.maxHeight);
     }
 
+    return {
+      width: box.width,
+      height: box.height,
+    };
+  }
 
-    // ============================================================
-    // 6. BORDER
-    // ============================================================
+  async validatePosition(
+    locator: Locator,
+    expected: {
+      x?: number;
+      y?: number;
+      tolerance?: number;
+    },
+  ) {
+    const box = await this.getBox(locator);
 
-    async validateBorder(
-        locator: Locator,
-        expected: {
-            border?: string;
-            borderWidth?: string;
-            borderStyle?: string;
-            borderColor?: string;
-            borderRadius?: string;
-        }
-    ) {
-        const css = await locator.evaluate((el) => {
-            const style = getComputedStyle(el);
+    const tolerance = expected.tolerance ?? 2;
 
-            return {
-                border: style.border,
-                borderWidth: style.borderWidth,
-                borderStyle: style.borderStyle,
-                borderColor: style.borderColor,
-                borderRadius: style.borderRadius,
-            };
-        });
+    if (expected.x !== undefined) {
+      expect(box.x).toBeGreaterThanOrEqual(expected.x - tolerance);
 
-        Object.entries(expected).forEach(([key, value]) => {
-            if (value !== undefined) {
-                expect(
-                    css[key as keyof typeof css]
-                ).toBe(value);
-            }
-        });
-
-        return css;
+      expect(box.x).toBeLessThanOrEqual(expected.x + tolerance);
     }
 
+    if (expected.y !== undefined) {
+      expect(box.y).toBeGreaterThanOrEqual(expected.y - tolerance);
 
-    // ============================================================
-    // 7. BOX SHADOW
-    // ============================================================
-
-    async validateShadow(
-        locator: Locator,
-        expectedShadow: string
-    ) {
-        const shadow = await locator.evaluate((el) => {
-            return getComputedStyle(el).boxShadow;
-        });
-
-        expect(shadow).toBe(expectedShadow);
-
-        return shadow;
+      expect(box.y).toBeLessThanOrEqual(expected.y + tolerance);
     }
 
+    return {
+      x: box.x,
+      y: box.y,
+    };
+  }
 
-    // ============================================================
-    // 8. VISIBILITY
-    // ============================================================
+  async validateColors(
+    locator: Locator,
+    expected: {
+      color?: string;
+      backgroundColor?: string;
+      borderColor?: string;
+    },
+  ) {
+    const css = await locator.evaluate((el) => {
+      const style = getComputedStyle(el);
 
-    async validateVisibility(
-        locator: Locator,
-        expectedVisible: boolean = true
-    ) {
-        if (expectedVisible) {
-            await expect(locator).toBeVisible();
-        } else {
-            await expect(locator).toBeHidden();
-        }
+      return {
+        color: style.color,
+        backgroundColor: style.backgroundColor,
+        borderColor: style.borderColor,
+      };
+    });
 
-        return {
-            visible: await locator.isVisible(),
-        };
+    if (expected.color !== undefined) {
+      expect(css.color).toBe(expected.color);
     }
 
-
-    // ============================================================
-    // 9. ALIGNMENT
-    // ============================================================
-
-    async validateAlignment(
-        locator: Locator,
-        referenceLocator: Locator,
-        expected: 'left' | 'right' | 'top' | 'bottom' | 'centerX' | 'centerY',
-        tolerance: number = 2
-    ) {
-        const element = await this.getBox(locator);
-        const reference = await this.getBox(referenceLocator);
-
-        switch (expected) {
-
-            case 'left':
-                expect(
-                    Math.abs(element.x - reference.x)
-                ).toBeLessThanOrEqual(tolerance);
-                break;
-
-            case 'right':
-                expect(
-                    Math.abs(
-                        element.x + element.width -
-                        (reference.x + reference.width)
-                    )
-                ).toBeLessThanOrEqual(tolerance);
-                break;
-
-            case 'top':
-                expect(
-                    Math.abs(element.y - reference.y)
-                ).toBeLessThanOrEqual(tolerance);
-                break;
-
-            case 'bottom':
-                expect(
-                    Math.abs(
-                        element.y + element.height -
-                        (reference.y + reference.height)
-                    )
-                ).toBeLessThanOrEqual(tolerance);
-                break;
-
-            case 'centerX':
-                expect(
-                    Math.abs(
-                        (element.x + element.width / 2) -
-                        (reference.x + reference.width / 2)
-                    )
-                ).toBeLessThanOrEqual(tolerance);
-                break;
-
-            case 'centerY':
-                expect(
-                    Math.abs(
-                        (element.y + element.height / 2) -
-                        (reference.y + reference.height / 2)
-                    )
-                ).toBeLessThanOrEqual(tolerance);
-                break;
-        }
-
-        return {
-            element,
-            reference,
-            alignment: expected,
-        };
+    if (expected.backgroundColor !== undefined) {
+      expect(css.backgroundColor).toBe(expected.backgroundColor);
     }
 
-
-    // ============================================================
-    // 10. RESPONSIVE
-    // ============================================================
-
-    async validateResponsive(
-        page: Page,
-        locator: Locator,
-        viewports: {
-            width: number;
-            height: number;
-            shouldBeVisible?: boolean;
-        }[]
-    ) {
-        const results = [];
-
-        for (const viewport of viewports) {
-
-            await page.setViewportSize({
-                width: viewport.width,
-                height: viewport.height,
-            });
-
-            await page.waitForTimeout(300);
-
-            const visible = await locator.isVisible();
-
-            if (
-                viewport.shouldBeVisible !== undefined
-            ) {
-                expect(visible).toBe(
-                    viewport.shouldBeVisible
-                );
-            }
-
-            results.push({
-                viewport,
-                visible,
-            });
-        }
-
-        return results;
+    if (expected.borderColor !== undefined) {
+      expect(css.borderColor).toBe(expected.borderColor);
     }
 
+    return css;
+  }
 
-    // ============================================================
-    // 11. HOVER STATE
-    // ============================================================
+  // ============================================================
+  // 5. SPACING
+  // ============================================================
 
-    async validateHoverState(
-        locator: Locator,
-        expected: {
-            color?: string;
-            backgroundColor?: string;
-            borderColor?: string;
-            boxShadow?: string;
-            cursor?: string;
-        }
-    ) {
-        await locator.hover();
+  async validateSpacing(
+    locator: Locator,
+    expected: {
+      margin?: string;
+      padding?: string;
+      marginTop?: string;
+      marginRight?: string;
+      marginBottom?: string;
+      marginLeft?: string;
+      paddingTop?: string;
+      paddingRight?: string;
+      paddingBottom?: string;
+      paddingLeft?: string;
+    },
+  ) {
+    const css = await locator.evaluate((el) => {
+      const style = getComputedStyle(el);
 
-        await locator.page().waitForTimeout(100);
+      return {
+        margin: style.margin,
+        marginTop: style.marginTop,
+        marginRight: style.marginRight,
+        marginBottom: style.marginBottom,
+        marginLeft: style.marginLeft,
 
-        const css = await locator.evaluate((el) => {
-            const style = getComputedStyle(el);
+        padding: style.padding,
+        paddingTop: style.paddingTop,
+        paddingRight: style.paddingRight,
+        paddingBottom: style.paddingBottom,
+        paddingLeft: style.paddingLeft,
+      };
+    });
 
-            return {
-                color: style.color,
-                backgroundColor: style.backgroundColor,
-                borderColor: style.borderColor,
-                boxShadow: style.boxShadow,
-                cursor: style.cursor,
-            };
-        });
+    Object.entries(expected).forEach(([key, value]) => {
+      if (value !== undefined) {
+        expect(css[key as keyof typeof css]).toBe(value);
+      }
+    });
 
-        Object.entries(expected).forEach(([key, value]) => {
-            if (value !== undefined) {
-                expect(
-                    css[key as keyof typeof css]
-                ).toBe(value);
-            }
-        });
+    return css;
+  }
 
-        return css;
+  // ============================================================
+  // 6. BORDER
+  // ============================================================
+
+  async validateBorder(
+    locator: Locator,
+    expected: {
+      border?: string;
+      borderWidth?: string;
+      borderStyle?: string;
+      borderColor?: string;
+      borderRadius?: string;
+    },
+  ) {
+    const css = await locator.evaluate((el) => {
+      const style = getComputedStyle(el);
+
+      return {
+        border: style.border,
+        borderWidth: style.borderWidth,
+        borderStyle: style.borderStyle,
+        borderColor: style.borderColor,
+        borderRadius: style.borderRadius,
+      };
+    });
+
+    Object.entries(expected).forEach(([key, value]) => {
+      if (value !== undefined) {
+        expect(css[key as keyof typeof css]).toBe(value);
+      }
+    });
+
+    return css;
+  }
+
+  // ============================================================
+  // 7. BOX SHADOW
+  // ============================================================
+
+  async validateShadow(locator: Locator, expectedShadow: string) {
+    const shadow = await locator.evaluate((el) => {
+      return getComputedStyle(el).boxShadow;
+    });
+
+    expect(shadow).toBe(expectedShadow);
+
+    return shadow;
+  }
+
+  // ============================================================
+  // 8. VISIBILITY
+  // ============================================================
+
+  async validateVisibility(locator: Locator, expectedVisible: boolean = true) {
+    if (expectedVisible) {
+      await expect(locator).toBeVisible();
+    } else {
+      await expect(locator).toBeHidden();
     }
 
+    return {
+      visible: await locator.isVisible(),
+    };
+  }
 
-    // ============================================================
-    // 12. FOCUS STATE
-    // ============================================================
+  // ============================================================
+  // 9. ALIGNMENT
+  // ============================================================
 
-    async validateFocusState(
-        locator: Locator,
-        expected: {
-            outline?: string;
-            outlineColor?: string;
-            outlineWidth?: string;
-            borderColor?: string;
-            boxShadow?: string;
-        }
-    ) {
-        await locator.focus();
+  async validateAlignment(
+    locator: Locator,
+    referenceLocator: Locator,
+    expected: "left" | "right" | "top" | "bottom" | "centerX" | "centerY",
+    tolerance: number = 2,
+  ) {
+    const element = await this.getBox(locator);
+    const reference = await this.getBox(referenceLocator);
 
-        const css = await locator.evaluate((el) => {
-            const style = getComputedStyle(el);
+    switch (expected) {
+      case "left":
+        expect(Math.abs(element.x - reference.x)).toBeLessThanOrEqual(
+          tolerance,
+        );
+        break;
 
-            return {
-                outline: style.outline,
-                outlineColor: style.outlineColor,
-                outlineWidth: style.outlineWidth,
-                borderColor: style.borderColor,
-                boxShadow: style.boxShadow,
-            };
-        });
-
+      case "right":
         expect(
-            await locator.evaluate(
-                el => document.activeElement === el
-            )
-        ).toBe(true);
+          Math.abs(element.x + element.width - (reference.x + reference.width)),
+        ).toBeLessThanOrEqual(tolerance);
+        break;
 
-        Object.entries(expected).forEach(([key, value]) => {
-            if (value !== undefined) {
-                expect(
-                    css[key as keyof typeof css]
-                ).toBe(value);
-            }
-        });
+      case "top":
+        expect(Math.abs(element.y - reference.y)).toBeLessThanOrEqual(
+          tolerance,
+        );
+        break;
 
-        return css;
+      case "bottom":
+        expect(
+          Math.abs(
+            element.y + element.height - (reference.y + reference.height),
+          ),
+        ).toBeLessThanOrEqual(tolerance);
+        break;
+
+      case "centerX":
+        expect(
+          Math.abs(
+            element.x + element.width / 2 - (reference.x + reference.width / 2),
+          ),
+        ).toBeLessThanOrEqual(tolerance);
+        break;
+
+      case "centerY":
+        expect(
+          Math.abs(
+            element.y +
+              element.height / 2 -
+              (reference.y + reference.height / 2),
+          ),
+        ).toBeLessThanOrEqual(tolerance);
+        break;
     }
 
+    return {
+      element,
+      reference,
+      alignment: expected,
+    };
+  }
 
-    // ============================================================
-    // 13. ACTIVE STATE
-    // ============================================================
+  // ============================================================
+  // 10. RESPONSIVE
+  // ============================================================
 
-    async validateActiveState(
-        locator: Locator,
-        expected: {
-            color?: string;
-            backgroundColor?: string;
-            borderColor?: string;
-            transform?: string;
-        }
-    ) {
-        await locator.click();
+  async validateResponsive(
+    page: Page,
+    locator: Locator,
+    viewports: {
+      width: number;
+      height: number;
+      shouldBeVisible?: boolean;
+    }[],
+  ) {
+    const results = [];
 
-        const css = await locator.evaluate((el) => {
-            const style = getComputedStyle(el);
+    for (const viewport of viewports) {
+      await page.setViewportSize({
+        width: viewport.width,
+        height: viewport.height,
+      });
 
-            return {
-                color: style.color,
-                backgroundColor: style.backgroundColor,
-                borderColor: style.borderColor,
-                transform: style.transform,
-            };
-        });
+      await page.waitForTimeout(300);
 
-        Object.entries(expected).forEach(([key, value]) => {
-            if (value !== undefined) {
-                expect(
-                    css[key as keyof typeof css]
-                ).toBe(value);
-            }
-        });
+      const visible = await locator.isVisible();
 
-        return css;
+      if (viewport.shouldBeVisible !== undefined) {
+        expect(visible).toBe(viewport.shouldBeVisible);
+      }
+
+      results.push({
+        viewport,
+        visible,
+      });
     }
 
+    return results;
+  }
 
-    // ============================================================
-    // 14. DISABLED STATE
-    // ============================================================
+  // ============================================================
+  // 11. HOVER STATE
+  // ============================================================
 
-    async validateDisabledState(
-        locator: Locator,
-        expectedDisabled: boolean = true
-    ) {
-        const disabled = await locator.isDisabled();
+  async validateHoverState(
+    locator: Locator,
+    expected: {
+      color?: string;
+      backgroundColor?: string;
+      borderColor?: string;
+      boxShadow?: string;
+      cursor?: string;
+    },
+  ) {
+    await locator.hover();
 
-        expect(disabled).toBe(expectedDisabled);
+    await locator.page().waitForTimeout(100);
 
-        const css = await locator.evaluate((el) => {
-            const style = getComputedStyle(el);
+    const css = await locator.evaluate((el) => {
+      const style = getComputedStyle(el);
 
-            return {
-                opacity: style.opacity,
-                cursor: style.cursor,
-                pointerEvents: style.pointerEvents,
-                color: style.color,
-                backgroundColor: style.backgroundColor,
-            };
-        });
+      return {
+        color: style.color,
+        backgroundColor: style.backgroundColor,
+        borderColor: style.borderColor,
+        boxShadow: style.boxShadow,
+        cursor: style.cursor,
+      };
+    });
 
-        return {
-            disabled,
-            css,
-        };
-    }
+    Object.entries(expected).forEach(([key, value]) => {
+      if (value !== undefined) {
+        expect(css[key as keyof typeof css]).toBe(value);
+      }
+    });
 
+    return css;
+  }
 
+  // ============================================================
+  // 12. FOCUS STATE
+  // ============================================================
+
+  async validateFocusState(
+    locator: Locator,
+    expected: {
+      outline?: string;
+      outlineColor?: string;
+      outlineWidth?: string;
+      borderColor?: string;
+      boxShadow?: string;
+    },
+  ) {
+    await locator.focus();
+
+    const css = await locator.evaluate((el) => {
+      const style = getComputedStyle(el);
+
+      return {
+        outline: style.outline,
+        outlineColor: style.outlineColor,
+        outlineWidth: style.outlineWidth,
+        borderColor: style.borderColor,
+        boxShadow: style.boxShadow,
+      };
+    });
+
+    expect(await locator.evaluate((el) => document.activeElement === el)).toBe(
+      true,
+    );
+
+    Object.entries(expected).forEach(([key, value]) => {
+      if (value !== undefined) {
+        expect(css[key as keyof typeof css]).toBe(value);
+      }
+    });
+
+    return css;
+  }
+
+  // ============================================================
+  // 13. ACTIVE STATE
+  // ============================================================
+
+  async validateActiveState(
+    locator: Locator,
+    expected: {
+      color?: string;
+      backgroundColor?: string;
+      borderColor?: string;
+      transform?: string;
+    },
+  ) {
+    await locator.click();
+
+    const css = await locator.evaluate((el) => {
+      const style = getComputedStyle(el);
+
+      return {
+        color: style.color,
+        backgroundColor: style.backgroundColor,
+        borderColor: style.borderColor,
+        transform: style.transform,
+      };
+    });
+
+    Object.entries(expected).forEach(([key, value]) => {
+      if (value !== undefined) {
+        expect(css[key as keyof typeof css]).toBe(value);
+      }
+    });
+
+    return css;
+  }
+
+  // ============================================================
+  // 14. DISABLED STATE
+  // ============================================================
+
+  async validateDisabledState(
+    locator: Locator,
+    expectedDisabled: boolean = true,
+  ) {
+    const disabled = await locator.isDisabled();
+
+    expect(disabled).toBe(expectedDisabled);
+
+    const css = await locator.evaluate((el) => {
+      const style = getComputedStyle(el);
+
+      return {
+        opacity: style.opacity,
+        cursor: style.cursor,
+        pointerEvents: style.pointerEvents,
+        color: style.color,
+        backgroundColor: style.backgroundColor,
+      };
+    });
+
+    return {
+      disabled,
+      css,
+    };
+  }
 }
 
 export class APIData {
+  // Complete API response
+  async getResponse(
+    request: APIRequestContext,
+    method: string,
+    url: string,
+    options: any = {},
+  ) {
+    const startTime = Date.now();
 
-    // Complete API response
-    async getResponse(
-        request: APIRequestContext,
-        method: string,
-        url: string,
-        options: any = {}
-    ) {
-        const startTime = Date.now();
+    const response = await request.fetch(url, {
+      method,
+      ...options,
+    });
 
-        const response = await request.fetch(url, {
-            method,
-            ...options
-        });
+    const responseTime = Date.now() - startTime;
 
-        const responseTime = Date.now() - startTime;
+    return {
+      status: response.status(),
+      statusText: response.statusText(),
+      url: response.url(),
+      headers: response.headers(),
+      responseTime,
+      body: await response.json(),
+    };
+  }
 
-        return {
-            status: response.status(),
-            statusText: response.statusText(),
-            url: response.url(),
-            headers: response.headers(),
-            responseTime,
-            body: await response.json()
-        };
-    }
+  // Only response body
+  async getBody(response: APIResponse) {
+    return await response.json();
+  }
 
+  // Response status
+  async getStatus(response: APIResponse) {
+    return {
+      status: response.status(),
+      statusText: response.statusText(),
+    };
+  }
 
-    // Only response body
-    async getBody(response: APIResponse) {
-        return await response.json();
-    }
+  // Response headers
+  async getHeaders(response: APIResponse) {
+    return await response.headers();
+  }
 
+  // Response time
+  async getResponseTime(
+    request: APIRequestContext,
+    method: string,
+    url: string,
+    options: any = {},
+  ) {
+    const startTime = Date.now();
 
-    // Response status
-    async getStatus(response: APIResponse) {
-        return {
-            status: response.status(),
-            statusText: response.statusText()
-        };
-    }
+    const response = await request.fetch(url, {
+      method,
+      ...options,
+    });
 
-
-    // Response headers
-    async getHeaders(response: APIResponse) {
-        return await response.headers();
-    }
-
-
-    // Response time
-    async getResponseTime(
-        request: APIRequestContext,
-        method: string,
-        url: string,
-        options: any = {}
-    ) {
-        const startTime = Date.now();
-
-        const response = await request.fetch(url, {
-            method,
-            ...options
-        });
-
-        return {
-            responseTime: Date.now() - startTime
-        };
-    }
+    return {
+      responseTime: Date.now() - startTime,
+    };
+  }
 }

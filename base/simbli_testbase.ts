@@ -56,6 +56,10 @@ export const test = base.extend({
             timeout: 60_000,
         });
 
+        // await page.waitForLoadState('load');
+
+        // await page.waitForTimeout(500);
+
         await use(page);
     },
 
