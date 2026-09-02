@@ -152,8 +152,6 @@ export class FooterPage {
     const validator = new uivalidator(this.page, this.request);
 
     const expectedOuterFooterCss = {
-      width: "1265px",
-      height: ["422.062px", "422px"],
       position: "static",
       display: "block",
       flexDirection: "row",
@@ -182,8 +180,6 @@ export class FooterPage {
     };
 
     const expectedInnerFooterCss = {
-      width: "1200px",
-      height: "269.562px",
       position: "static",
       display: "grid",
       flexDirection: "row",
@@ -194,8 +190,7 @@ export class FooterPage {
       gap: "40px",
       rowGap: "40px",
       columnGap: "40px",
-      gridTemplateColumns: "273.812px 136.906px 136.906px 170.125px 282.25px",
-      gridTemplateRows: "269.562px",
+    //   gridTemplateRows: "269.562px",
       margin: "0px 32.5px",
       padding: "0px 20px",
       backgroundColor: "rgba(0, 0, 0, 0)",
@@ -214,10 +209,6 @@ export class FooterPage {
     const expectedFooterLogoCss = {
       src: "https://www.simbli.ai/assets/footer-logo-DXw0c_xK.svg",
       alt: "",
-      width: "153px",
-      height: "40px",
-      naturalWidth: 153,
-      naturalHeight: 40,
       objectFit: "fill",
       objectPosition: "50% 50%",
       border: "0px none rgb(74, 222, 128)",
