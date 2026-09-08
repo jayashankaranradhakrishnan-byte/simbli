@@ -130,7 +130,12 @@ export class ContactPage {
 
     const footerPage = new FooterPage(this.page, this.request);
 
+    console.log("➡️ Starting Footer");
     await footerPage.footer();
+    console.log("✅ Footer completed");
+
+    console.log("➡️ Starting Upper Footer");
     await footerPage.upperfooter();
+    console.log("✅ Upper Footer completed");
   }
 }

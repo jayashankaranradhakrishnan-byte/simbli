@@ -123,6 +123,20 @@ export class landingPage {
   }
 
   async landing_page() {
+
+    const acceptCookies = this.page.getByRole("button", {
+      name: "Accept All",
+      exact: true,
+    });
+
+    await expect(acceptCookies).toBeVisible({
+      timeout: 10_000,
+    });
+
+    await acceptCookies.click();
+
+    console.log("🍪 Cookies accepted");
+
     const validator = new uivalidator(this.page, this.request);
     const landingPageHeaderCss = await validator.getContainerCss(
       this.landingPageHeaderContainer,
@@ -175,8 +189,8 @@ export class landingPage {
     };
 
     const expectedLogoCss = {
-        src: "https://www.simbli.ai/assets/logo-simbli-C3O7l_VO.svg",
-    //   src: "https://dev.simbli.ai/assets/logo-simbli-C3O7l_VO.svg",
+      src: "https://www.simbli.ai/assets/logo-simbli-C3O7l_VO.svg",
+      //   src: "https://dev.simbli.ai/assets/logo-simbli-C3O7l_VO.svg",
       alt: "logo",
 
       //   width: "135px",

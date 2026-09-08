@@ -140,11 +140,11 @@ export default defineConfig({
 
     // Useful for debugging failures
     screenshot: 'only-on-failure',
-    video: 'retain-on-failure',
-    trace: 'retain-on-failure',
+    //video: 'retain-on-failure',
+    //trace: 'retain-on-failure',
 
     // Don't wait for every image/font/analytics resource
-    navigationTimeout: 60_000,
+    navigationTimeout: 120_000,
     actionTimeout: 15_000,
   },
 

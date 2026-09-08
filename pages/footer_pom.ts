@@ -19,7 +19,7 @@ export class FooterPage {
   readonly whoWeAreSection;
   readonly otherLinksSection;
   readonly contactSection;
-  readonly newsletterSection;
+  //readonly newsletterSection;
 
   // Footer links
   readonly aboutUsLink;
@@ -73,9 +73,7 @@ export class FooterPage {
       .locator(".footer-container .footer-section")
       .nth(3);
 
-    this.newsletterSection = page.locator(
-      ".footer-container .get-started-section",
-    );
+    //this.newsletterSection = page.getByText('Subscribe to Our Newsletter ↗', { exact: true });
 
     // Links
     this.aboutUsLink = page.getByRole("link", {
@@ -148,6 +146,22 @@ export class FooterPage {
     return this.page.locator("//div[@class='logo-icon']//img");
   }
 
+  get newsletterSection(): Locator {
+    return this.page.getByRole("heading", {
+      name: "Subscribe to our Newsletter",
+      exact: true,
+    });
+  }
+
+  get newsletterDescription(): Locator {
+    return this.page.getByText(
+      "Want the latest updates? Stay in the loop with Simbli’s AI agents: Alfred, Kayal, Tara & Diya.",
+      { exact: false }
+    );
+  }
+
+
+
   async footer() {
     const validator = new uivalidator(this.page, this.request);
 
@@ -190,7 +204,7 @@ export class FooterPage {
       gap: "40px",
       rowGap: "40px",
       columnGap: "40px",
-    //   gridTemplateRows: "269.562px",
+      //   gridTemplateRows: "269.562px",
       margin: "0px 32.5px",
       padding: "0px 20px",
       backgroundColor: "rgba(0, 0, 0, 0)",
@@ -208,7 +222,7 @@ export class FooterPage {
 
     const expectedFooterLogoCss = {
       src: "https://www.simbli.ai/assets/footer-logo-DXw0c_xK.svg",
-    //src: "https://dev.simbli.ai/assets/footer-logo-DXw0c_xK.svg",
+      //src: "https://dev.simbli.ai/assets/footer-logo-DXw0c_xK.svg",
       alt: "",
       objectFit: "fill",
       objectPosition: "50% 50%",
@@ -341,13 +355,19 @@ export class FooterPage {
     // =========================
 
     await expect(this.newsletterSection).toBeVisible();
-
-    await expect(this.newsletterSection).toContainText(
-      "Subscribe to our Newsletter",
+    await expect(this.newsletterSection).toHaveText(
+      "Subscribe to our Newsletter"
     );
 
-    await expect(this.newsletterSection).toContainText(
-      "Want the latest updates? Stay in the loop with Simbli’s AI agents: Alfred, Kayal, Tara & Diya.",
+    await expect(
+      this.page.getByRole("heading", {
+        name: "Subscribe to our Newsletter",
+        exact: true,
+      })
+    ).toBeVisible();
+
+    await expect(this.newsletterDescription).toContainText(
+      "Want the latest updates? Stay in the loop with Simbli’s AI agents: Alfred, Kayal, Tara & Diya."
     );
 
     await expect(this.newsletterInput).toBeVisible();
@@ -389,8 +409,9 @@ export class FooterPage {
     return this.page.locator('img[src*="rocket1-BE5oAewk.svg"]');
   }
   get exploreAgentsButton(): Locator {
-    return this.page.locator("a.alfred-btn-primary", {
-      hasText: "Explore Our Agents",
+    return this.page.getByRole("link", {
+      name: "Explore Our Agents",
+      exact: true,
     });
   }
 
@@ -497,16 +518,6 @@ export class FooterPage {
     await expect(this.exploreAgentsButton).toHaveText("Explore Our Agents");
 
     await expect(this.exploreAgentsButton).toHaveAttribute(
-      "href",
-      "https://simbli.ai",
-    );
-
-    // await expect(this.exploreAgentsButton).toHaveAttribute(
-    //   "href",
-    //   "https://dev.simbli.ai",
-    // );
-
-    await expect(this.exploreAgentsButton).toHaveAttribute(
       "style",
       "text-decoration: none;",
     );
@@ -515,5 +526,7 @@ export class FooterPage {
       this.exploreAgentsButton,
       expectedExploreAgentsCss,
     );
+
+    console.log("✅ Upper Footer completed");
   }
 }

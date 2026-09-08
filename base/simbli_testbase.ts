@@ -25,46 +25,70 @@
 //     await context.close();
 // });
 
+// import { test as base, expect } from "@playwright/test";
 
-import { test as base, expect } from '@playwright/test';
+// export const test = base.extend({
+//   page: async ({ page, browser }, use) => {
+//     // const context = await browser.newContext({
+//     //     viewport: { width: 1366, height: 641 },
+//     // });
+
+//     // const page = await context.newPage();
+
+//     //     await page.goto('https://www.simbli.ai/', {
+//     //         waitUntil: 'domcontentloaded',
+//     //         timeout: 60000,
+//     //     });
+
+//     //     // await page.goto('https://www.dev.simbli.ai/', {
+//     //     //     waitUntil: 'domcontentloaded',
+//     //     //     timeout: 30000,
+//     //     // });
+
+//     //     await use(page);
+
+//     //     //await context.close();
+//     // },
+
+//     await page.goto("/", {
+//       waitUntil: "domcontentloaded",
+//       timeout: 60_000,
+//     });
+
+//     const acceptCookies = page.getByRole("button", {
+//       name: "Accept All",
+//     });
+
+//     if (await acceptCookies.isVisible({ timeout: 3000 }).catch(() => false)) {
+//       await acceptCookies.click();
+//     }
+
+//     await use(page);
+//   },
+// });
+
+// export { expect };
+
+
+
+import { test as base, expect } from "@playwright/test";
 
 export const test = base.extend({
-    page: async ({ page, browser }, use) => {
-        // const context = await browser.newContext({
-        //     viewport: { width: 1366, height: 641 },
-        // });
+  page: async ({ page }, use) => {
 
-        // const page = await context.newPage();
+    console.log("🌐 Opening Simbli");
 
-        //     await page.goto('https://www.simbli.ai/', {
-        //         waitUntil: 'domcontentloaded',
-        //         timeout: 60000,
-        //     });
+    await page.goto("/", {
+      waitUntil: "domcontentloaded",
+      timeout: 60_000,
+    });
 
-        //     // await page.goto('https://www.dev.simbli.ai/', {
-        //     //     waitUntil: 'domcontentloaded',
-        //     //     timeout: 30000,
-        //     // });
+    console.log("✅ Simbli loaded");
 
-        //     await use(page);
+    await use(page);
 
-        //     //await context.close();
-        // },
-
-        await page.goto('/', {
-            waitUntil: 'domcontentloaded',
-            timeout: 60_000,
-        });
-
-        // await page.waitForLoadState('load');
-
-        // await page.waitForTimeout(500);
-
-        await use(page);
-    },
-
+    console.log("🏁 Fixture finished");
+  },
 });
 
 export { expect };
-
-
