@@ -175,8 +175,7 @@ export class uivalidator {
     }
 
     console.log(
-      `✅ Button CSS validation passed: ${
-        Object.keys(expected).length
+      `✅ Button CSS validation passed: ${Object.keys(expected).length
       } properties`,
     );
   }
@@ -274,8 +273,7 @@ export class uivalidator {
     }
 
     console.log(
-      `✅ Image CSS validation passed: ${
-        Object.keys(expected).length
+      `✅ Image CSS validation passed: ${Object.keys(expected).length
       } properties`,
     );
   }
@@ -410,74 +408,141 @@ export class uivalidator {
       `✅ Container CSS validation passed: ${Object.keys(expected).length} properties`,
     );
   }
-  async getContainerCss(locator: Locator) {
-    return await locator.evaluate((el) => {
-      const css = getComputedStyle(el);
-      const rect = el.getBoundingClientRect();
+  // async getContainerCss(locator: Locator) {
+  //   return await locator.evaluate((el) => {
+  //     const css = getComputedStyle(el);
+  //     const rect = el.getBoundingClientRect();
 
-      return {
-        width: css.width,
-        height: css.height,
+  //     return {
+  //       width: css.width,
+  //       height: css.height,
 
-        x: rect.x,
-        y: rect.y,
+  //       x: rect.x,
+  //       y: rect.y,
 
-        position: css.position,
-        top: css.top,
-        right: css.right,
-        bottom: css.bottom,
-        left: css.left,
+  //       position: css.position,
+  //       top: css.top,
+  //       right: css.right,
+  //       bottom: css.bottom,
+  //       left: css.left,
 
-        display: css.display,
+  //       display: css.display,
 
-        flexDirection: css.flexDirection,
-        flexWrap: css.flexWrap,
-        justifyContent: css.justifyContent,
-        alignItems: css.alignItems,
-        alignContent: css.alignContent,
+  //       flexDirection: css.flexDirection,
+  //       flexWrap: css.flexWrap,
+  //       justifyContent: css.justifyContent,
+  //       alignItems: css.alignItems,
+  //       alignContent: css.alignContent,
 
-        gap: css.gap,
-        rowGap: css.rowGap,
-        columnGap: css.columnGap,
+  //       gap: css.gap,
+  //       rowGap: css.rowGap,
+  //       columnGap: css.columnGap,
 
-        gridTemplateColumns: css.gridTemplateColumns,
-        gridTemplateRows: css.gridTemplateRows,
+  //       gridTemplateColumns: css.gridTemplateColumns,
+  //       gridTemplateRows: css.gridTemplateRows,
 
-        margin: css.margin,
-        marginTop: css.marginTop,
-        marginRight: css.marginRight,
-        marginBottom: css.marginBottom,
-        marginLeft: css.marginLeft,
+  //       margin: css.margin,
+  //       marginTop: css.marginTop,
+  //       marginRight: css.marginRight,
+  //       marginBottom: css.marginBottom,
+  //       marginLeft: css.marginLeft,
 
-        padding: css.padding,
-        paddingTop: css.paddingTop,
-        paddingRight: css.paddingRight,
-        paddingBottom: css.paddingBottom,
-        paddingLeft: css.paddingLeft,
+  //       padding: css.padding,
+  //       paddingTop: css.paddingTop,
+  //       paddingRight: css.paddingRight,
+  //       paddingBottom: css.paddingBottom,
+  //       paddingLeft: css.paddingLeft,
 
-        backgroundColor: css.backgroundColor,
-        backgroundImage: css.backgroundImage,
+  //       backgroundColor: css.backgroundColor,
+  //       backgroundImage: css.backgroundImage,
 
-        border: css.border,
-        borderRadius: css.borderRadius,
+  //       border: css.border,
+  //       borderRadius: css.borderRadius,
 
-        borderTopLeftRadius: css.borderTopLeftRadius,
-        borderTopRightRadius: css.borderTopRightRadius,
-        borderBottomLeftRadius: css.borderBottomLeftRadius,
-        borderBottomRightRadius: css.borderBottomRightRadius,
+  //       borderTopLeftRadius: css.borderTopLeftRadius,
+  //       borderTopRightRadius: css.borderTopRightRadius,
+  //       borderBottomLeftRadius: css.borderBottomLeftRadius,
+  //       borderBottomRightRadius: css.borderBottomRightRadius,
 
-        boxShadow: css.boxShadow,
+  //       boxShadow: css.boxShadow,
 
-        overflow: css.overflow,
-        overflowX: css.overflowX,
-        overflowY: css.overflowY,
+  //       overflow: css.overflow,
+  //       overflowX: css.overflowX,
+  //       overflowY: css.overflowY,
 
-        visibility: css.visibility,
-        opacity: css.opacity,
-        zIndex: css.zIndex,
-      };
-    });
-  }
+  //       visibility: css.visibility,
+  //       opacity: css.opacity,
+  //       zIndex: css.zIndex,
+  //     };
+  //   });
+  // } 
+
+  // async getContainerCss(locator: Locator) {
+  //   return await locator.evaluate((el) => {
+  //     const css = getComputedStyle(el);
+  //     const rect = el.getBoundingClientRect();
+
+  //     return {
+  //       width: css.width,
+  //       height: css.height,
+
+  //       x: rect.x,
+  //       y: rect.y,
+
+  //       position: css.position,
+  //       top: css.top,
+  //       right: css.right,
+  //       bottom: css.bottom,
+  //       left: css.left,
+
+  //       display: css.display,
+
+  //       // Border
+  //       border: css.border,
+  //       borderRadius: css.borderRadius,
+
+  //       borderTopColor: css.borderTopColor,
+  //       borderTopStyle: css.borderTopStyle,
+  //       borderTopWidth: css.borderTopWidth,
+
+  //       borderTopLeftRadius: css.borderTopLeftRadius,
+  //       borderTopRightRadius: css.borderTopRightRadius,
+
+  //       borderBottomColor: css.borderBottomColor,
+  //       borderBottomStyle: css.borderBottomStyle,
+  //       borderBottomWidth: css.borderBottomWidth,
+
+  //       borderBottomLeftRadius: css.borderBottomLeftRadius,
+  //       borderBottomRightRadius: css.borderBottomRightRadius,
+
+  //       borderLeftColor: css.borderLeftColor,
+  //       borderLeftStyle: css.borderLeftStyle,
+  //       borderLeftWidth: css.borderLeftWidth,
+
+  //       borderRightColor: css.borderRightColor,
+  //       borderRightStyle: css.borderRightStyle,
+  //       borderRightWidth: css.borderRightWidth,
+
+  //       // Box
+  //       boxSizing: css.boxSizing,
+
+  //       // Effects
+  //       backdropFilter: css.backdropFilter,
+
+  //       // Layout
+  //       flexDirection: css.flexDirection,
+  //       flexWrap: css.flexWrap,
+  //       justifyContent: css.justifyContent,
+  //       alignItems: css.alignItems,
+
+  //       // Other
+  //       backgroundColor: css.backgroundColor,
+  //       boxShadow: css.boxShadow,
+  //       opacity: css.opacity,
+  //       zIndex: css.zIndex,
+  //     };
+  //   });
+  // }
 
   // async getContainerCss_expect(locator: Locator) {
 
@@ -536,6 +601,108 @@ export class uivalidator {
   //         };
   //     });
   // }
+
+  async getContainerCss(locator: Locator) {
+    return await locator.evaluate((el) => {
+      const css = getComputedStyle(el);
+      const rect = el.getBoundingClientRect();
+
+      return {
+        // Dimensions & Position
+        width: css.width,
+        height: css.height,
+        x: rect.x,
+        y: rect.y,
+
+        position: css.position,
+        top: css.top,
+        right: css.right,
+        bottom: css.bottom,
+        left: css.left,
+
+        // Display & Flex
+        display: css.display,
+        flexDirection: css.flexDirection,
+        flexWrap: css.flexWrap,
+        justifyContent: css.justifyContent,
+        alignItems: css.alignItems,
+        alignContent: css.alignContent,
+
+        // Gap
+        gap: css.gap,
+        rowGap: css.rowGap,
+        columnGap: css.columnGap,
+
+        // Grid
+        gridTemplateColumns: css.gridTemplateColumns,
+        gridTemplateRows: css.gridTemplateRows,
+
+        // Margin
+        margin: css.margin,
+        marginTop: css.marginTop,
+        marginRight: css.marginRight,
+        marginBottom: css.marginBottom,
+        marginLeft: css.marginLeft,
+
+        // Padding
+        padding: css.padding,
+        paddingTop: css.paddingTop,
+        paddingRight: css.paddingRight,
+        paddingBottom: css.paddingBottom,
+        paddingLeft: css.paddingLeft,
+
+        // Background
+        backgroundColor: css.backgroundColor,
+        backgroundImage: css.backgroundImage,
+
+        // Border
+        border: css.border,
+        borderRadius: css.borderRadius,
+
+        borderTopColor: css.borderTopColor,
+        borderTopStyle: css.borderTopStyle,
+        borderTopWidth: css.borderTopWidth,
+
+        borderTopLeftRadius: css.borderTopLeftRadius,
+        borderTopRightRadius: css.borderTopRightRadius,
+
+        borderBottomColor: css.borderBottomColor,
+        borderBottomStyle: css.borderBottomStyle,
+        borderBottomWidth: css.borderBottomWidth,
+
+        borderBottomLeftRadius: css.borderBottomLeftRadius,
+        borderBottomRightRadius: css.borderBottomRightRadius,
+
+        borderLeftColor: css.borderLeftColor,
+        borderLeftStyle: css.borderLeftStyle,
+        borderLeftWidth: css.borderLeftWidth,
+
+        borderRightColor: css.borderRightColor,
+        borderRightStyle: css.borderRightStyle,
+        borderRightWidth: css.borderRightWidth,
+
+        // Box
+        boxSizing: css.boxSizing,
+
+        // Effects
+        backdropFilter: css.backdropFilter,
+        boxShadow: css.boxShadow,
+        opacity: css.opacity,
+
+        // Overflow
+        overflow: css.overflow,
+        overflowX: css.overflowX,
+        overflowY: css.overflowY,
+
+        // Visibility
+        visibility: css.visibility,
+
+        // Layer
+        zIndex: css.zIndex,
+      };
+    });
+  }
+
 
   async getCardCss(locator: Locator) {
     return await locator.evaluate((el) => {
@@ -855,8 +1022,8 @@ export class uivalidator {
         expect(
           Math.abs(
             element.y +
-              element.height / 2 -
-              (reference.y + reference.height / 2),
+            element.height / 2 -
+            (reference.y + reference.height / 2),
           ),
         ).toBeLessThanOrEqual(tolerance);
         break;

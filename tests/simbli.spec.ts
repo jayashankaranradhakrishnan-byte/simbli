@@ -10,16 +10,6 @@ import { Loginpage } from "../pages/login_pom";
 test.describe("Simbli Test Suite", () => {
 
 
-  //   test.beforeEach(async ({ page }) => {
-  //     const acceptCookies = page.getByRole("button", {
-  //       name: "Accept All",
-  //     });
-
-  //     if (await acceptCookies.isVisible({ timeout: 3000 }).catch(() => false)) {
-  //       await acceptCookies.click();
-  //     }
-  //   });
-
   test("Simbli landing page test", async ({ page, request }) => {
 
     test.setTimeout(120_000);

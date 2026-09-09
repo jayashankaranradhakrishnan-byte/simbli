@@ -116,6 +116,7 @@ export class AboutUsPage {
     return this.visionCard.locator("p");
   }
 
+
   async aboutus() {
     const validator = new uivalidator(this.page, this.request);
 
@@ -167,12 +168,12 @@ export class AboutUsPage {
 
     const expectedAboutImageCss = {
       src: "https://www.simbli.ai/assets/about-BGyVSSTq.svg",
-    //   src: "https://dev.simbli.ai/assets/about-BGyVSSTq.svg",
+      //   src: "https://dev.simbli.ai/assets/about-BGyVSSTq.svg",
       alt: "",
-    //   width: "476px",
-    //   height: "0px",
-    //   naturalWidth: 0,
-    //   naturalHeight: 0,
+      //   width: "476px",
+      //   height: "0px",
+      //   naturalWidth: 0,
+      //   naturalHeight: 0,
       objectFit: "fill",
       objectPosition: "50% 50%",
       border: "0px none rgb(33, 37, 41)",

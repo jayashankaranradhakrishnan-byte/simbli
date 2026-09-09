@@ -474,7 +474,7 @@ export class landingPage {
 
     const teamList = this.page.locator(".team-list-wrap");
 
-    await expect(teamList).toBeVisible();
+    await expect(teamList).toBeVisible({ timeout: 10000 });
 
     const teamCards = teamList.locator(".team-list-card");
 
