@@ -18,6 +18,7 @@ test.describe("Simbli Test Suite", () => {
     const pricing = new PricingPage(page, request);
     const aboutus = new AboutUsPage(page, request);
     const contact = new ContactPage(page, request);
+    const login = new Loginpage(page, request);
 
     console.log("➡️ Starting Landing Page");
     await landing.landing_page();
@@ -34,21 +35,23 @@ test.describe("Simbli Test Suite", () => {
     console.log("➡️ Starting Contact Page");
     await contact.contact_page();
     console.log("✅ Contact Page completed");
-  });
-
-  test("Simbli login page test", async ({ page, request }) => {
-
-    test.setTimeout(120_000);
-
-    const simbli = new uivalidator(page, request);
-    const landing = new landingPage(page, request);
-    const pricing = new PricingPage(page, request);
-    const aboutus = new AboutUsPage(page, request);
-    const contact = new ContactPage(page, request);
-    const login = new Loginpage(page, request);
 
     await login.login_functionality();
-
-
   });
+
+  // test("Simbli login page test", async ({ page, request }) => {
+
+  //   test.setTimeout(120_000);
+
+  //   const simbli = new uivalidator(page, request);
+  //   const landing = new landingPage(page, request);
+  //   const pricing = new PricingPage(page, request);
+  //   const aboutus = new AboutUsPage(page, request);
+  //   const contact = new ContactPage(page, request);
+  //   const login = new Loginpage(page, request);
+
+  //   await login.login_functionality();
+
+
+  // });
 });

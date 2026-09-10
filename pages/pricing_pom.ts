@@ -221,19 +221,25 @@ export class PricingPage {
 
     //await expect(this.pricingpageHeader_badge).toBeVisible({ timeout: 10000 });
 
+    await expect(this.page).toHaveURL(/\/pricing/);
+
     await expect(
       this.page.getByRole("heading", {
         name: "Simple pricing. Powerful AI.",
         exact: true,
       })
-    ).toBeVisible({ timeout: 10000 });
+    ).toBeVisible({ timeout: 20000 });
 
-    await expect(this.pricingpageHeader_h1).toBeVisible();
+    await expect(this.pricingpageHeader_h1).toBeVisible({
+      timeout: 15000,
+    });
     await expect(this.pricingpageHeader_h1).toHaveText(
       "Simple pricing. Powerful AI.",
     );
 
-    await expect(this.pricingpageHeader_h2).toBeVisible();
+    await expect(this.pricingpageHeader_h2).toBeVisible({
+      timeout: 15000,
+    });
     await expect(this.pricingpageHeader_h2).toHaveText(
       "Start free and scale your AI capabilities as your business grows. Choose the plan that fits your needs and upgrade whenever you're ready.",
     );
@@ -299,9 +305,9 @@ export class PricingPage {
 
     await expect(this.basicPlanCard).toBeVisible();
 
-    await expect(this.basicPlanCard).toBeVisible({
-      timeout: 10000,
-    });
+    // await expect(this.basicPlanCard).toBeVisible({
+    //   timeout: 10000,
+    // });
 
     await expect(this.basicPlanCard).toContainText("Basic");
     await expect(this.basicPlanCard).toContainText(

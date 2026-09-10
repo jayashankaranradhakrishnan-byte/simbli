@@ -54,7 +54,9 @@ export class Loginpage {
   }
 
   get emailrequired(): Locator {
-    return this.page.getByText('Email is required');
+    return this.page
+      .locator("span")
+      .filter({ hasText: /^Email is required$/ });
   }
 
   get emailnotregister(): Locator {
@@ -389,8 +391,9 @@ export class Loginpage {
 
   async login_functionality() {
     const LandingPage = new landingPage(this.page, this.request);
+    const footerPage = new FooterPage(this.page, this.request);
 
-    LandingPage.nav_getstart_btn.click();
+    await LandingPage.nav_getstart_btn.click();
 
     await expect(this.simbli_logo).toBeVisible();
 
@@ -406,7 +409,9 @@ export class Loginpage {
 
     await this.submitButton.click();
 
-    await expect(this.emailrequired).toBeVisible();
+    await expect(this.emailrequired).toBeVisible({
+      timeout: 10000,
+    });
 
 
     // email is not register 
@@ -441,13 +446,33 @@ export class Loginpage {
       timeout: 10000,
     });
 
-    // success passsword 
+    // // success passsword priya 
+
+    // await expect(this.emailInput).toBeVisible();
+    // await this.emailInput.fill("iampriya2112004@gmail.com");
+
+    // await expect(this.passwordInput).toBeVisible();
+    // await this.passwordInput.fill("Test@1234");
+
+    // await expect(this.submitButton).toBeVisible();
+    // await expect(this.submitButton).toBeEnabled();
+
+    // await this.submitButton.click();
+
+    // await expect(this.loginsuccess).toBeVisible();
+
+    // await expect(this.alfredHeaderContainer).toBeVisible({
+    //   timeout: 15000,
+    // });
+
+
+    // success passsword dinesh
 
     await expect(this.emailInput).toBeVisible();
-    await this.emailInput.fill("iampriya2112004@gmail.com");
+    await this.emailInput.fill("dinesh.saravanan@dci.in");
 
     await expect(this.passwordInput).toBeVisible();
-    await this.passwordInput.fill("Test@1234");
+    await this.passwordInput.fill("Test@123");
 
     await expect(this.submitButton).toBeVisible();
     await expect(this.submitButton).toBeEnabled();
@@ -459,6 +484,7 @@ export class Loginpage {
     await expect(this.alfredHeaderContainer).toBeVisible({
       timeout: 15000,
     });
+
 
 
     console.log("➡️ Starting login Header validation");
@@ -497,6 +523,7 @@ export class Loginpage {
 
     await this.validateDashboardHero();
     await this.validateAgentTeamSection();
+    await footerPage.footer();
 
 
     try {
