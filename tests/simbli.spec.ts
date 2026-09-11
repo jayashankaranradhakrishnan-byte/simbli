@@ -5,6 +5,7 @@ import { PricingPage } from "../pages/pricing_pom";
 import { AboutUsPage } from "../pages/aboutus_pom";
 import { ContactPage } from "../pages/contact_pom";
 import { Loginpage } from "../pages/login_pom";
+import { AlfredPage } from "../pages/alfred_pom";
 //import { setup, teardown, getPage } from '../base/simbli_testBase';
 
 test.describe("Simbli Test Suite", () => {
@@ -36,22 +37,23 @@ test.describe("Simbli Test Suite", () => {
     await contact.contact_page();
     console.log("✅ Contact Page completed");
 
-    await login.login_functionality();
+    //await login.login_functionality();
   });
 
-  // test("Simbli login page test", async ({ page, request }) => {
+  test("Simbli login page test", async ({ page, request }) => {
 
-  //   test.setTimeout(120_000);
+    test.setTimeout(120_000);
 
-  //   const simbli = new uivalidator(page, request);
-  //   const landing = new landingPage(page, request);
-  //   const pricing = new PricingPage(page, request);
-  //   const aboutus = new AboutUsPage(page, request);
-  //   const contact = new ContactPage(page, request);
-  //   const login = new Loginpage(page, request);
+    const simbli = new uivalidator(page, request);
+    const landing = new landingPage(page, request);
+    const pricing = new PricingPage(page, request);
+    const aboutus = new AboutUsPage(page, request);
+    const contact = new ContactPage(page, request);
+    const login = new Loginpage(page, request);
+    const alfred = new AlfredPage(page, request);
 
-  //   await login.login_functionality();
+    await login.login_functionality();
 
 
-  // });
+  });
 });

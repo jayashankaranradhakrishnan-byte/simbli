@@ -1,0 +1,69 @@
+🌐 Opening Simbli
+✅ Simbli loaded
+➡️ Starting login Header validation
+✅ Alfred logo validation completed
+✅ login header menu validation completed
+✅ Dashboard active state validated
+✅ Alfred Header validation completed
+📊 Dashboard Metric Cards:
+
+========== Card 1 ==========
+Agent  : Alfred
+Label  : POST Generations
+Value  : 0 / 5
+Status : 5 attempt(s) remaining
+
+========== Card 2 ==========
+Agent  : Kayal
+Label  : KAYAL USAGE
+Value  : 0 / 5
+Status : 5 conversation(s) remaining
+
+========== Card 3 ==========
+Agent  : Diya
+Label  : DIYA USAGE
+Value  : 0 / 7 posts
+Status : Brand fetches: 0 / 1
+✅ Dashboard Hero validation completed
+
+🤖 AI AGENT TEAM
+==============================
+
+========== Agent 1 ==========
+Name        : Alfred
+Role        : Social Media Agent
+Description : Creates engaging posts, manages content calendars, and grows your social presence.
+Button      : Go to Alfred
+Image Alt   : Alfred
+URL         : https://alfred.simbli.ai?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NzU3LCJlbWFpbCI6ImRpbmVzaC5zYXJhdmFuYW5AZGNpLmluIiwidXNlcm5hbWUiOiJEaW5lc2ggUyIsImF1dGhfdHlwZSI6Im5vcm1hbCIsImlhdCI6MTc4OTEwMzU5NiwiZXhwIjoxNzg5NTM1NTk2fQ.7JsIFwq5odTT8X9jjlD7gcRpD8MN7BfyRt2ce_BdjoM&email=dinesh.saravanan%40dci.in
+
+========== Agent 2 ==========
+Name        : Diya
+Role        : Social Strategy Agent
+Description : Plans and executes social strategies that drive engagement and deliver results.
+Button      : Go to Diya
+Image Alt   : Diya
+URL         : https://diya.simbli.ai?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NzU3LCJlbWFpbCI6ImRpbmVzaC5zYXJhdmFuYW5AZGNpLmluIiwidXNlcm5hbWUiOiJEaW5lc2ggUyIsImF1dGhfdHlwZSI6Im5vcm1hbCIsImlhdCI6MTc4OTEwMzU5NiwiZXhwIjoxNzg5NTM1NTk2fQ.7JsIFwq5odTT8X9jjlD7gcRpD8MN7BfyRt2ce_BdjoM&email=dinesh.saravanan%40dci.in
+
+========== Agent 3 ==========
+Name        : Tara
+Role        : Relationship Agent
+Description : Builds relationships, nurtures leads, and helps you close more deals.
+Button      : Go to Tara
+Image Alt   : Tara
+URL         : https://tara.simbli.ai?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NzU3LCJlbWFpbCI6ImRpbmVzaC5zYXJhdmFuYW5AZGNpLmluIiwidXNlcm5hbWUiOiJEaW5lc2ggUyIsImF1dGhfdHlwZSI6Im5vcm1hbCIsImlhdCI6MTc4OTEwMzU5NiwiZXhwIjoxNzg5NTM1NTk2fQ.7JsIFwq5odTT8X9jjlD7gcRpD8MN7BfyRt2ce_BdjoM&email=dinesh.saravanan%40dci.in
+
+========== Agent 4 ==========
+Name        : Kayal
+Role        : Roleplay Coach Agent
+Description : Trains you with real-world scenarios and roleplays to sharpen your communication.
+Button      : Go to Kayal
+Image Alt   : Kayal
+URL         : https://kayal.simbli.ai?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NzU3LCJlbWFpbCI6ImRpbmVzaC5zYXJhdmFuYW5AZGNpLmluIiwidXNlcm5hbWUiOiJEaW5lc2ggUyIsImF1dGhfdHlwZSI6Im5vcm1hbCIsImlhdCI6MTc4OTEwMzU5NiwiZXhwIjoxNzg5NTM1NTk2fQ.7JsIFwq5odTT8X9jjlD7gcRpD8MN7BfyRt2ce_BdjoM&email=dinesh.saravanan%40dci.in
+
+✅ AI Agent Team validation completed
+✅ Container CSS validation passed: 25 properties
+✅ Container CSS validation passed: 23 properties
+✅ Image CSS validation passed: 11 properties
+✅ Footer validation completed successfully
+🏁 Fixture finished
