@@ -53,7 +53,35 @@ test.describe("Simbli Test Suite", () => {
     const alfred = new AlfredPage(page, request);
 
     await login.login_functionality();
-
-
   });
+
+  test("Simbli alfred page test", async ({ page, request }) => {
+
+    test.setTimeout(120_000);
+
+    const simbli = new uivalidator(page, request);
+    const landing = new landingPage(page, request);
+    const pricing = new PricingPage(page, request);
+    const aboutus = new AboutUsPage(page, request);
+    const contact = new ContactPage(page, request);
+    const login = new Loginpage(page, request);
+    const alfred = new AlfredPage(page, request);
+
+    await login.login_functionality();
+    await alfred.alfred_page();
+  });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 });
